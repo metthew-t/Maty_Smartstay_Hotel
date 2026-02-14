@@ -19,7 +19,7 @@ def check_url(url, name):
 
 def main():
     backend_up = check_url("http://localhost:8000/admin/login/", "Backend (Admin)")
-    frontend_up = check_url("http://localhost:3001", "Frontend (Home)")
+    frontend_up = check_url("http://localhost:3000", "Frontend (Home)")
     
     if backend_up and frontend_up:
         print("\nSUCCESS: Both servers are running.")

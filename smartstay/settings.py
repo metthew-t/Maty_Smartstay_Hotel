@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', config('SECRET_KEY', default='django-insecure-dev-key'))
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 ROOT_URLCONF = 'smartstay.urls'
 
@@ -119,11 +119,20 @@ MEDIA_ROOT = BASE_DIR / 'media'
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]
 
 # Chapa and Gemini API Keys
 CHAPA_SECRET_KEY = os.environ.get('CHAPA_SECRET_KEY', 'CHAPA-Secondary-Key-Placeholder')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', config('GEMINI_API_KEY', default=''))
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', config('EMAIL_HOST_USER', default=''))
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', config('EMAIL_HOST_PASSWORD', default=''))
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', config('DEFAULT_FROM_EMAIL', default='SmartStay Hotel <noreply@smartstay.com>'))
 
 # Security settings for production
 if not DEBUG:
