@@ -1,10 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { paymentAPI, bookingAPI } from '@/lib/api';
 import { useLanguage } from '@/lib/LanguageContext';
 
-export default function PaymentsPage() {
+function PaymentsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [payments, setPayments] = useState([]);
@@ -253,5 +253,13 @@ export default function PaymentsPage() {
                 .status-failed { background: #f8d7da; color: #721c24; }
             `}</style>
         </div>
+    );
+}
+
+export default function PaymentsPage() {
+    return (
+        <Suspense fallback={<div className="loading">Loading payments...</div>}>
+            <PaymentsContent />
+        </Suspense>
     );
 }
