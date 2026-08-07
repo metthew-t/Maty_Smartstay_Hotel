@@ -3,6 +3,7 @@ services:
   - type: web
     name: smartstay-backend
     env: python
+    rootDir: .
     buildCommand: "./build.sh"
     startCommand: "gunicorn smartstay.wsgi:application"
     envVars:
